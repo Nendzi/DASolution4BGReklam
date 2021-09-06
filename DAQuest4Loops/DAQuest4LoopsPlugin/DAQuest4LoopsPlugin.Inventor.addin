@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Addin Type="Plugin">
+  <ClassId>{b70ff430-8fc4-4424-abaf-ed3b9474f32c}</ClassId>
+  <ClientId>{b70ff430-8fc4-4424-abaf-ed3b9474f32c}</ClientId>
+  <DisplayName>DAQuest4LoopsPlugin</DisplayName>
+  <Description>a DAQuest4LoopsPlugin</Description>
+  <Assembly>DAQuest4LoopsPlugin.dll</Assembly>
+</Addin>

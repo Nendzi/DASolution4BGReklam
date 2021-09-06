@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  <assemblyIdentity name="DAQuest4LoopsPlugin" version="1.0.0.0"></assemblyIdentity>
+  <clrClass clsid="{b70ff430-8fc4-4424-abaf-ed3b9474f32c}" progid="DAQuest4LoopsPlugin.PluginServer" threadingModel="Both" name="DAQuest4LoopsPlugin.PluginServer"></clrClass>
+  <file name="DAQuest4LoopsPlugin.dll" hashalg="SHA1"></file>
+</assembly>
