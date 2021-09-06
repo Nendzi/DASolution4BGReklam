@@ -102,7 +102,7 @@ namespace DAQuest4LoopsPlugin
         private void RemoveDuplicates(int index)
         {
             Point refPoint = curveNodes[index].NodePoint;
-            for (int i = curveNodes.Count - 1; i >= 0; i--)
+            for (int i = curveNodes.Count - 1; i > index; i--)
             {
                 CurveNode item = curveNodes[i];
                 if (PointCompare(item.NodePoint, refPoint))
@@ -132,7 +132,7 @@ namespace DAQuest4LoopsPlugin
             {
                 foreach (ICustomizedObject edge in customizedEdges)
                 {
-                    if (item.NodePoint == edge.GetStartPointFromObject() || item.NodePoint == edge.GetEndPointFromObject())
+                    if (PointCompare(item.NodePoint, edge.GetStartPointFromObject()) || PointCompare(item.NodePoint, edge.GetEndPointFromObject()))
                     {
                         item.Edges.Add(edge);
                     }
