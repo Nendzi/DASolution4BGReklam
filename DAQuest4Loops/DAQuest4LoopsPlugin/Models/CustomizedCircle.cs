@@ -1,4 +1,5 @@
 ﻿using Inventor;
+using Newtonsoft.Json;
 
 namespace DAQuest4LoopsPlugin.Models
 {
@@ -15,6 +16,15 @@ namespace DAQuest4LoopsPlugin.Models
         {
             return _edge;
         }
+        public string GetEdgeData()
+        {
+            string result;
+            CircleData circleData = new CircleData();
+            circleData.edgeType = _edge.GeometryType.ToString();
+            oCircle.GetCircleData(ref circleData.center, ref circleData.axisVector, out circleData.raduis);
+            result = JsonConvert.SerializeObject(circleData);
+            return result;
+        }
         public Point GetEndPointFromObject()
         {
             return GetEndPoint(oCircle.Evaluator);
@@ -23,9 +33,12 @@ namespace DAQuest4LoopsPlugin.Models
         {
             return GetStartPoint(oCircle.Evaluator);
         }
-        public Point GetXFromObject()
+        internal class CircleData
         {
-            return GetXForCurve(oCircle.Evaluator, oCircle);
+            public string edgeType;
+            public double[] center = new double[3];
+            public double[] axisVector = new double[3];
+            public double raduis = 0;
         }
     }
 }

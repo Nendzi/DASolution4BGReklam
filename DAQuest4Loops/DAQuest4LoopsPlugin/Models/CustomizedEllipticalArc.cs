@@ -1,4 +1,5 @@
 ﻿using Inventor;
+using Newtonsoft.Json;
 
 namespace DAQuest4LoopsPlugin.Models
 {
@@ -15,6 +16,24 @@ namespace DAQuest4LoopsPlugin.Models
         {
             return _edge;
         }
+        public string GetEdgeData()
+        {
+            string result;
+            EllipticArcData ellipticArcData = new EllipticArcData();
+            ellipticArcData.edgeType = _edge.GeometryType.ToString();
+            oEllipticalArc.GetEllipticalArcData(
+                ref ellipticArcData.center, 
+                ref ellipticArcData.majorAxis, 
+                ref ellipticArcData.minorAxis,
+                out ellipticArcData.majorRaduis, 
+                out ellipticArcData.minorRaduis, 
+                out ellipticArcData.startAngle, 
+                out ellipticArcData.sweepAngle
+                );
+            result = JsonConvert.SerializeObject(ellipticArcData);
+            return result;
+        }
+
         public Point GetEndPointFromObject()
         {
             return GetEndPoint(oEllipticalArc.Evaluator);
@@ -23,9 +42,16 @@ namespace DAQuest4LoopsPlugin.Models
         {
             return GetStartPoint(oEllipticalArc.Evaluator);
         }
-        public Point GetXFromObject()
+        internal class EllipticArcData
         {
-            return GetXForCurve(oEllipticalArc.Evaluator, oEllipticalArc);
+            public string edgeType;
+            public double[] center = new double[3];
+            public double[] majorAxis = new double[3];
+            public double[] minorAxis = new double[3];
+            public double minorRaduis = 0;
+            public double majorRaduis = 0;
+            public double startAngle = 0;
+            public double sweepAngle = 180;
         }
     }
 }

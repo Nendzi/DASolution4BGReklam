@@ -1,4 +1,5 @@
 ﻿using Inventor;
+using Newtonsoft.Json;
 
 namespace DAQuest4LoopsPlugin.Models
 {
@@ -15,6 +16,16 @@ namespace DAQuest4LoopsPlugin.Models
         {
             return _edge;
         }
+        public string GetEdgeData()
+        {
+            string result;
+            BSplineCurveData bSplineCurveData = new BSplineCurveData();
+            bSplineCurveData.edgeType = _edge.GeometryType.ToString();
+            oBSplineCurve.GetBSplineData(ref bSplineCurveData.pole, ref bSplineCurveData.knots, ref bSplineCurveData.weights);
+            result = JsonConvert.SerializeObject(bSplineCurveData);
+            return result;
+        }
+
         public Point GetEndPointFromObject()
         {
             return GetEndPoint(oBSplineCurve.Evaluator);
@@ -23,9 +34,12 @@ namespace DAQuest4LoopsPlugin.Models
         {
             return GetStartPoint(oBSplineCurve.Evaluator);
         }
-        public Point GetXFromObject()
+        internal class BSplineCurveData
         {
-            return GetXForCurve(oBSplineCurve.Evaluator, oBSplineCurve);
+            public string edgeType;
+            public double[] pole = new double[3];
+            public double[] knots = new double[3];
+            public double[] weights = new double[6];
         }
     }
 }

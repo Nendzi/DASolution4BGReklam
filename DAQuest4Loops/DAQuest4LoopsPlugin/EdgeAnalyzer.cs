@@ -2,6 +2,9 @@
 using Inventor;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace DAQuest4LoopsPlugin
 {
@@ -25,12 +28,10 @@ namespace DAQuest4LoopsPlugin
         public void Analyze()
         {
             GetAllEdges();
-            FindExtemesOnXAxis();
             CreateNodesList();
             AddEdgesToNodes();
-            //Napraviti listu sa čvorovima i nagibima krivih linija
-            //Pronađi krajnju levu liniju i pronađi sve povezane linije
-            //Napravi listu povezanih linija koji čine spoljašnju konturu
+            PutEdgesInJSON();
+            // JSON fajl treba da ima redni broj krive linije i njene koordinate
         }
         #region Common private function
         private void SeparateEdges()
@@ -70,15 +71,6 @@ namespace DAQuest4LoopsPlugin
         {
             allEdges = surfaceBodies[1].Edges;
             SeparateEdges();
-        }
-        #endregion
-        #region Find exteme values on X axis
-        private void FindExtemesOnXAxis()
-        {
-            foreach (ICustomizedObject oEdge in customizedEdges)
-            {
-                oEdge.GetXFromObject();
-            }
         }
         #endregion
         #region Nodes list Creation
@@ -136,6 +128,20 @@ namespace DAQuest4LoopsPlugin
                     {
                         item.Edges.Add(edge);
                     }
+                }
+            }
+        }
+        #endregion
+        #region Create JSON File
+        public void PutEdgesInJSON()
+        {
+            string jsonData = "";
+            string path = @"D:\TCuser_Redirect_Folders\Documents\Visual Studio 2019\Projects\Forge Projects\DASolution4BGReklam\DAQuest4Loops\DebugPluginLocally\inputFiles";
+            using (StreamWriter streamWriter = new StreamWriter($"{path}" + @"\params.json"))
+            {
+                foreach (ICustomizedObject item in customizedEdges)
+                {
+                    streamWriter.WriteLine(item.GetEdgeData());
                 }
             }
         }

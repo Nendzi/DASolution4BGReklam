@@ -24,51 +24,6 @@ namespace DAQuest4LoopsPlugin
 
             return result;
         }
-        public void CompareXValueWithExteremes(object Caller, double inputValue)
-        {
-            if (ExtremeValues.XHasValue)
-            {
-                if (inputValue < ExtremeValues.MinX)
-                {
-                    ExtremeValues.MinX = inputValue;
-                    ExtremeValues.CurveOnMinX = Caller;
-                }
-                else if (inputValue > ExtremeValues.MaxX)
-                {
-                    ExtremeValues.MaxX = inputValue;
-                    ExtremeValues.CurveOnMaxX = Caller;
-                }
-            }
-            else
-            {
-                ExtremeValues.MinX = inputValue;
-                ExtremeValues.MaxX = inputValue;
-                ExtremeValues.XHasValue = true;
-            }
-        }
-        public Point GetXForLine(LineSegment oLine)
-        {
-            double[] StartPoint = new double[3];
-            double[] EndPoint = new double[3];
-            oLine.GetLineSegmentData(StartPoint, EndPoint);
-            CompareXValueWithExteremes(oLine, StartPoint[0]);
-            CompareXValueWithExteremes(oLine, EndPoint[0]);
-
-            return GetPointFromArray(StartPoint);
-        }
-        public Point GetXForCurve(CurveEvaluator curveEvaluator, object caller)
-        {
-            double[] Params = new double[1];
-            double[] Points = new double[3];
-            curveEvaluator.GetParamExtents(out double Param1, out double Param2);
-            for (double i = Param1; i < Param2; i += 0.001)
-            {
-                Params[0] = i;
-                curveEvaluator.GetPointAtParam(Params, Points);
-                CompareXValueWithExteremes(caller, Points[0]);
-            }
-            return GetPointFromArray(Points);
-        }
         public Point GetStartPoint(CurveEvaluator curveEvaluator)
         {
             double[] point = GetPoint(curveEvaluator, CurvePoint.Start);

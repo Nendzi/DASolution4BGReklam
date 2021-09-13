@@ -1,4 +1,5 @@
 ﻿using Inventor;
+using Newtonsoft.Json;
 
 namespace DAQuest4LoopsPlugin.Models
 {
@@ -15,6 +16,22 @@ namespace DAQuest4LoopsPlugin.Models
         {
             return _edge;
         }
+        public string GetEdgeData()
+        {
+            string result;
+            ArcData arcData = new ArcData();
+            arcData.edgeType = _edge.GeometryType.ToString();
+            oArc3D.GetArcData(
+                ref arcData.center,
+                ref arcData.axisVector,
+                ref arcData.refVector,
+                out arcData.raduis,
+                out arcData.startAngle,
+                out arcData.sweepAngle
+                );
+            result = JsonConvert.SerializeObject(arcData);
+            return result;
+        }
         public Point GetEndPointFromObject()
         {
             return GetEndPoint(oArc3D.Evaluator);
@@ -23,9 +40,15 @@ namespace DAQuest4LoopsPlugin.Models
         {
             return GetStartPoint(oArc3D.Evaluator);
         }
-        public Point GetXFromObject()
+        internal class ArcData
         {
-            return GetXForCurve(oArc3D.Evaluator,oArc3D);
+            public string edgeType;
+            public double[] center = new double[3];
+            public double[] axisVector = new double[3];
+            public double[] refVector = new double[3];
+            public double raduis = 0;
+            public double startAngle = 0;
+            public double sweepAngle = 180;
         }
     }
 }
